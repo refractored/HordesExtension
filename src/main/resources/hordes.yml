@@ -1,0 +1,22 @@
+#
+# Hordes
+#
+DefaultPreset:
+  # The worlds to apply this preset to
+  Worlds:
+    - world
+  Mobs:
+    - ZOMBIE
+    - SKELETON
+  HordeMaxSize: 10
+  HordeMinSize: 5
+PainPreset:
+  # The worlds to apply this preset to
+  Worlds:
+    - ThisIsAExampleToShowYouCanHaveMultiplePresets
+  Mobs:
+    - ZOMBIE
+    - SKELETON
+    - WARDEN
+  HordeMaxSize: 69
+  HordeMinSize: 21
