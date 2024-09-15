@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation(files("libs/bloodmoon.jar"))
+    implementation(fileTree("libs"))
     compileOnly("com.willfp:eco:6.55.0")
     compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
