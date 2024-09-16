@@ -77,19 +77,23 @@ data class HordeConfig(
         if (!announce) return
 
         if (hordeBroadcastPrefixed) {
-            Bukkit.broadcast(
-                BloodmoonPlugin.instance.langYml
-                    .getStringPrefixed("messages.HordeSpawnedOnPlayer")
-                    .replace("%player%", player.name)
-                    .miniToComponent(),
-            )
+            player.world.players.forEach {
+                it.sendMessage(
+                    BloodmoonPlugin.instance.langYml
+                        .getStringPrefixed("messages.HordeSpawnedOnPlayer")
+                        .replace("%player%", player.name)
+                        .miniToComponent(),
+                )
+            }
         } else {
-            Bukkit.broadcast(
-                BloodmoonPlugin.instance.langYml
-                    .getString("messages.HordeSpawnedOnPlayer")
-                    .replace("%player%", player.name)
-                    .miniToComponent(),
-            )
+            player.world.players.forEach {
+                it.sendMessage(
+                    BloodmoonPlugin.instance.langYml
+                        .getString("messages.HordeSpawnedOnPlayer")
+                        .replace("%player%", player.name)
+                        .miniToComponent(),
+                )
+            }
         }
     }
 }
