@@ -2,8 +2,8 @@ package net.refractored.hordes.commands
 
 import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.bloodmoonreloaded.exceptions.CommandErrorException
+import net.refractored.bloodmoonreloaded.util.MessageUtil.getStringPrefixed
 import net.refractored.bloodmoonreloaded.util.MessageUtil.miniToComponent
-import net.refractored.hordes.HordesExtension
 import net.refractored.hordes.hordes.HordeRegistry
 import org.bukkit.entity.Player
 import revxrsal.commands.annotation.Command
@@ -21,17 +21,16 @@ class SpawnHordeCommand {
         player: Player,
         @Optional announce: Boolean = true,
     ) {
-        HordesExtension.instance.logger.info("Spawning horde on ${player.name}.")
         HordeRegistry.getHordeConfig(player.world)?.spawnHorde(player, announce) ?: throw CommandErrorException(
             BloodmoonPlugin.instance.langYml
-                .getString("messages.NoHordeConfigFound")
+                .getStringPrefixed("messages.NoHordeConfigFound")
                 .miniToComponent(),
         )
         actor.reply(
             BloodmoonPlugin.instance.langYml
-                .getString("messages.SpawnedHordeOnPlayer")
-                .replace("%player%", player.name),
+                .getStringPrefixed("messages.SpawnedHordeOnPlayer")
+                .replace("%player%", player.name)
+                .miniToComponent(),
         )
-        HordesExtension.instance.logger.info("Spawned horde on ${player.name}.")
     }
 }

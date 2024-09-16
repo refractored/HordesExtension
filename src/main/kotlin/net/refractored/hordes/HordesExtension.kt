@@ -27,14 +27,14 @@ class HordesExtension(
 
     override fun onAfterLoad() {
         if (!File(dataFolder, "hordes.yml").exists()) {
-            val destination = Path.of(dataFolder.path + "/extensions/hordes.yml")
+            val destination = Path.of(dataFolder.absolutePath + "/hordes.yml")
 
             this.javaClass.getResourceAsStream("/hordes.yml")?.use { inputStream ->
                 Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING)
             } ?: throw IllegalArgumentException("Resource not found.")
         }
 
-        hordeConfig = YamlConfiguration.loadConfiguration(dataFolder.resolve("/extensions/hordes.yml"))
+        hordeConfig = YamlConfiguration.loadConfiguration(dataFolder.resolve("hordes.yml"))
 
         HordeRegistry.refreshHordeConfigs()
 
@@ -65,9 +65,14 @@ class HordesExtension(
         }
 
         BloodmoonPlugin.instance.handler.register(SpawnHordeCommand())
+
+        HordeRegistry.refreshHordeConfigs()
     }
 
     override fun onDisable() {
+    }
+
+    override fun onReload() {
     }
 
     companion object {

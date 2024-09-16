@@ -5,7 +5,6 @@ import com.willfp.eco.core.entities.TestableEntity
 import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.bloodmoonreloaded.util.MessageUtil.getStringPrefixed
 import net.refractored.bloodmoonreloaded.util.MessageUtil.miniToComponent
-import net.refractored.hordes.HordesExtension
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
@@ -43,7 +42,7 @@ data class HordeConfig(
             throw IllegalArgumentException("No valid worlds found in ${configSection.name}")
         }
 
-        mobs = configSection.getStringList("mobs").mapNotNull { Entities.lookup(it) }
+        mobs = configSection.getStringList("Mobs").map { Entities.lookup(it) }
     }
 
     /**
@@ -53,7 +52,6 @@ data class HordeConfig(
         player: Player,
         announce: Boolean = true,
     ) {
-        HordesExtension.instance.logger.info("Spawning horde on ${player.name}...")
         val targetLocation: Location = player.location.clone()
 
         val spawnAmount = (minMobs..maxMobs).random()

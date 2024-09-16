@@ -59,7 +59,7 @@ object HordeRegistry {
         if (keys.isEmpty()) return
         for (key in keys) {
             config.getConfigurationSection(key)?.let { sectionKey ->
-                HordeConfig(sectionKey)
+                createPreset(HordeConfig(sectionKey))
             } ?: continue
         }
     }

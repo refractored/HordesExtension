@@ -18,10 +18,11 @@ class OnBloodmoonStart : Listener {
         BloodmoonPlugin.instance.scheduler.runLater(
             (hordeConfig.minTickTime..hordeConfig.maxTickTime).random(),
         ) {
+            bloodmoonTask(event)
         }
     }
 
-    fun bloodmoonTask(event: BloodmoonStartEvent) {
+    private fun bloodmoonTask(event: BloodmoonStartEvent) {
         val hordeConfig = HordeRegistry.getHordeConfig(event.World)!!
         HordeRegistry.getHordeConfig(event.World)!!.maxMobs
         BloodmoonPlugin.instance.scheduler.runLater(
