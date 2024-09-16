@@ -59,13 +59,15 @@ data class HordeConfig(
         for (i in 0 until spawnAmount) {
             val mob = mobs.random()
 
-            var mobLocation: Location = targetLocation.clone()
+            val mobLocation: Location = targetLocation.clone()
 
             targetLocation.x += (-(spawnDistance)..spawnDistance).random()
 
             targetLocation.z += (-(spawnDistance)..spawnDistance).random()
 
-            mobLocation = player.world.getHighestBlockAt(mobLocation).location
+            mobLocation.y = mobLocation.world
+                .getHighestBlockAt(mobLocation)
+                .location.y + 1
 
             mob.spawn(mobLocation)
 

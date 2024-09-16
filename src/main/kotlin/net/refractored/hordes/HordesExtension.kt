@@ -53,13 +53,13 @@ class HordesExtension(
         }
 
         if (plugin.langYml.getStringOrNull("messages.NoHordeConfigFoundNoHordeConfigFound") == null) {
-            plugin.langYml.set("messages.NoHordeConfigFound", "<red>No horde config found for this world!")
+            plugin.langYml.set("messages.NoHordeConfigFound", "<red>This world has no valid horde configuration!")
             plugin.langYml.save()
             plugin.reload()
         }
 
         if (plugin.langYml.getStringOrNull("messages.SpawnedHordeOnPlayer") == null) {
-            plugin.langYml.set("messages.HordeSpawnedOnPlayer", "<white>Spawned horde on %player%.")
+            plugin.langYml.set("messages.SpawnedHordeOnPlayer", "<white>Spawned horde on %player%.")
             plugin.langYml.save()
             plugin.reload()
         }
