@@ -5,6 +5,7 @@ import com.willfp.eco.core.extensions.Extension
 import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.hordes.commands.SpawnHordeCommand
 import net.refractored.hordes.hordes.HordeRegistry
+import net.refractored.hordes.listeners.OnBloodmoonStart
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
@@ -27,12 +28,19 @@ class HordesExtension(
 
         HordeRegistry.refreshHordeConfigs()
 
-//        BloodmoonPlugin.instance.scheduler.runTimer(5, 5) {
-//            for (activeWorld in BloodmoonRegistry.getActiveWorlds()) {
-//                if (HordeRegistry.getHordeConfig(activeWorld.world) != null) {
-//                }
-//            }
-//        }
+        plugin.eventManager.registerListener(OnBloodmoonStart())
+
+        if (plugin.langYml.getStringOrNull("messages.HordeSpawnedOnPlayer") == null) {
+            plugin.langYml.set("messages.HordeSpawnedOnPlayer", "<red><bold>A horde has descended upon %player%!")
+        }
+
+        if (plugin.langYml.getBoolOrNull("messages.HordeSpawnedOnPlayerPrefixed") == null) {
+            plugin.langYml.set("messages.HordeSpawnedOnPlayerPrefixed", false)
+        }
+
+        if (plugin.langYml.getStringOrNull("messages.SpawnedHordeOnPlayer") == null) {
+            plugin.langYml.set("messages.HordeSpawnedOnPlayer", "<white>Spawned horde on %player%.")
+        }
     }
 
     override fun onAfterLoad() {

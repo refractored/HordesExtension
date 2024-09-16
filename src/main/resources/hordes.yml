@@ -1,10 +1,12 @@
 #
-# Hordes
+# BloodmoonReloaded: Hordes
+# By: refractored
 #
 DefaultPreset:
   # The worlds to apply this preset to
   Worlds:
     - world
+  # https://plugins.auxilor.io/all-plugins/the-entity-lookup-system
   Mobs:
     - ZOMBIE
     - SKELETON
@@ -14,8 +16,10 @@ DefaultPreset:
   # The minimum and maximum ticks between each horde spawn
   HordeSpawnRateTicksMin: 200
   HordeSpawnRateTicksMax: 800
+  # Whether to enable the strike lightning effect when a horde spawns
+  StrikeLightning: true
+  AnnounceHordes: true
 #PainPreset:
-#  # The worlds to apply this preset to
 #  Worlds:
 #    - ThisIsAExampleToShowYouCanHaveMultiplePresets
 #  Mobs:
@@ -25,6 +29,7 @@ DefaultPreset:
 #  HordeMaxSize: 69
 #  HordeMinSize: 21
 #  HordeSpawnDistance: 12
-#  # The minimum and maximum ticks between each horde spawn
 #  HordeSpawnRateTicksMin: 200
 #  HordeSpawnRateTicksMax: 800
+#  StrikeLightning: true
+#  AnnounceHordes: true
