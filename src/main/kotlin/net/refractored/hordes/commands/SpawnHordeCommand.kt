@@ -4,6 +4,7 @@ import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.bloodmoonreloaded.exceptions.CommandErrorException
 import net.refractored.bloodmoonreloaded.util.MessageUtil.getStringPrefixed
 import net.refractored.bloodmoonreloaded.util.MessageUtil.miniToComponent
+import net.refractored.bloodmoonreloaded.util.MessageUtil.replace
 import net.refractored.hordes.hordes.HordeRegistry
 import org.bukkit.entity.Player
 import revxrsal.commands.annotation.Command
@@ -29,7 +30,7 @@ class SpawnHordeCommand {
         actor.reply(
             BloodmoonPlugin.instance.langYml
                 .getStringPrefixed("messages.SpawnedHordeOnPlayer")
-                .replace("%player%", player.name)
+                .replace("%player%", player.displayName())
                 .miniToComponent(),
         )
     }

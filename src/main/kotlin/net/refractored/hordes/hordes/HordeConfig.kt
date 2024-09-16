@@ -18,6 +18,9 @@ data class HordeConfig(
 
     val mobs: List<TestableEntity>
 
+    val strikeLightning
+        get() = configSection.getBoolean("StrikeLightning")
+
     val maxMobs
         get() = configSection.getInt("HordeMaxSize")
 
@@ -29,6 +32,9 @@ data class HordeConfig(
 
     val maxTickTime
         get() = configSection.getLong("HordeSpawnRateTicksMax")
+
+    val MaxY
+        get() = configSection.getDouble("MaxY")
 
     val spawnDistance
         get() = configSection.getInt("HordeSpawnDistance")
@@ -52,26 +58,29 @@ data class HordeConfig(
         player: Player,
         announce: Boolean = true,
     ) {
-        val targetLocation: Location = player.location.clone()
-
         val spawnAmount = (minMobs..maxMobs).random()
 
         for (i in 0 until spawnAmount) {
             val mob = mobs.random()
 
-            val mobLocation: Location = targetLocation.clone()
+            val mobLocation: Location = player.location.clone()
 
-            targetLocation.x += (-(spawnDistance)..spawnDistance).random()
+            mobLocation.x += ((spawnDistance.unaryMinus())..spawnDistance).random()
 
-            targetLocation.z += (-(spawnDistance)..spawnDistance).random()
+            mobLocation.z += ((spawnDistance.unaryMinus())..spawnDistance).random()
 
-            mobLocation.y = mobLocation.world
-                .getHighestBlockAt(mobLocation)
-                .location.y + 1
+            mobLocation.y =
+                (
+                    mobLocation.world
+                        .getHighestBlockAt(mobLocation)
+                        .location.y + 1
+                ).coerceAtMost(MaxY)
 
             mob.spawn(mobLocation)
 
-            player.world.strikeLightningEffect(mobLocation)
+            if (strikeLightning) {
+                player.world.strikeLightningEffect(mobLocation)
+            }
         }
 
         if (!announce) return

@@ -19,6 +19,8 @@ DefaultPreset:
   # Whether to enable the strike lightning effect when a horde spawns
   StrikeLightning: true
   AnnounceHordes: true
+  # Hordes have a limit to the height which can spawn at to prevent some farms.
+  MaxY: 256
 #PainPreset:
 #  Worlds:
 #    - ThisIsAExampleToShowYouCanHaveMultiplePresets
@@ -33,3 +35,5 @@ DefaultPreset:
 #  HordeSpawnRateTicksMax: 800
 #  StrikeLightning: true
 #  AnnounceHordes: true
+#  MaxY: 256
+
