@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.20"
+    id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -20,8 +21,9 @@ repositories {
 dependencies {
     implementation(fileTree("libs"))
     compileOnly("com.willfp:eco:6.55.0")
-    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compileOnly("com.github.Auxilor:libreforge:4.71.5")
+    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.0")
 }
 
 val targetJavaVersion = 21

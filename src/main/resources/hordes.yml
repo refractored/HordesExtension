@@ -10,13 +10,21 @@ DefaultPreset:
     - SKELETON
   HordeMaxSize: 10
   HordeMinSize: 5
-PainPreset:
-  # The worlds to apply this preset to
-  Worlds:
-    - ThisIsAExampleToShowYouCanHaveMultiplePresets
-  Mobs:
-    - ZOMBIE
-    - SKELETON
-    - WARDEN
-  HordeMaxSize: 69
-  HordeMinSize: 21
+  HordeSpawnDistance: 12
+  # The minimum and maximum ticks between each horde spawn
+  HordeSpawnRateTicksMin: 200
+  HordeSpawnRateTicksMax: 800
+#PainPreset:
+#  # The worlds to apply this preset to
+#  Worlds:
+#    - ThisIsAExampleToShowYouCanHaveMultiplePresets
+#  Mobs:
+#    - ZOMBIE
+#    - SKELETON
+#    - WARDEN
+#  HordeMaxSize: 69
+#  HordeMinSize: 21
+#  HordeSpawnDistance: 12
+#  # The minimum and maximum ticks between each horde spawn
+#  HordeSpawnRateTicksMin: 200
+#  HordeSpawnRateTicksMax: 800
