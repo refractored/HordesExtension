@@ -5,6 +5,7 @@ import com.willfp.eco.core.entities.TestableEntity
 import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.bloodmoonreloaded.util.MessageUtil.getStringPrefixed
 import net.refractored.bloodmoonreloaded.util.MessageUtil.miniToComponent
+import net.refractored.hordes.HordesExtension
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
@@ -14,7 +15,7 @@ import org.bukkit.entity.Player
 data class HordeConfig(
     val configSection: ConfigurationSection,
 ) {
-    val worlds: List<World> = configSection.getStringList("worlds").mapNotNull { Bukkit.getWorld(it) }
+    val worlds: List<World> = configSection.getStringList("Worlds").mapNotNull { Bukkit.getWorld(it) }
 
     val mobs: List<TestableEntity>
 
@@ -52,6 +53,7 @@ data class HordeConfig(
         player: Player,
         announce: Boolean = true,
     ) {
+        HordesExtension.instance.logger.info("Spawning horde on ${player.name}...")
         val targetLocation: Location = player.location.clone()
 
         val spawnAmount = (minMobs..maxMobs).random()
