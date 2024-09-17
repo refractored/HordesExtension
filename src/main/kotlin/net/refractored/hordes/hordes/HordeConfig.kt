@@ -33,7 +33,7 @@ data class HordeConfig(
     val maxTickTime
         get() = configSection.getLong("HordeSpawnRateTicksMax")
 
-    val MaxY
+    val maxY
         get() = configSection.getDouble("MaxY")
 
     val spawnDistance
@@ -74,7 +74,7 @@ data class HordeConfig(
                     mobLocation.world
                         .getHighestBlockAt(mobLocation)
                         .location.y + 1
-                ).coerceAtMost(MaxY)
+                ).coerceAtMost(maxY)
 
             mob.spawn(mobLocation)
 
