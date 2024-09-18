@@ -3,7 +3,6 @@ package net.refractored.hordes
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.extensions.Extension
 import net.refractored.bloodmoonreloaded.BloodmoonPlugin
-import net.refractored.hordes.commands.SpawnHordeCommand
 import net.refractored.hordes.hordes.HordeRegistry
 import net.refractored.hordes.listeners.OnBloodmoonStart
 import org.bukkit.configuration.file.YamlConfiguration
@@ -12,6 +11,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
+@Suppress("unused")
 class HordesExtension(
     plugin: EcoPlugin,
 ) : Extension(plugin) {
@@ -64,7 +64,7 @@ class HordesExtension(
             plugin.reload()
         }
 
-        BloodmoonPlugin.instance.handler.register(SpawnHordeCommand())
+        BloodmoonPlugin.instance.eventManager.registerListener(OnBloodmoonStart())
 
         HordeRegistry.refreshHordeConfigs()
     }

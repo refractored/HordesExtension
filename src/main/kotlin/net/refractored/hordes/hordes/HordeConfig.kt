@@ -94,15 +94,16 @@ data class HordeConfig(
                         .miniToComponent(),
                 )
             }
-        } else {
-            player.world.players.forEach {
-                it.sendMessage(
-                    BloodmoonPlugin.instance.langYml
-                        .getString("messages.HordeSpawnedOnPlayer")
-                        .replace("%player%", player.name)
-                        .miniToComponent(),
-                )
-            }
+            return
+        }
+
+        player.world.players.forEach {
+            it.sendMessage(
+                BloodmoonPlugin.instance.langYml
+                    .getString("messages.HordeSpawnedOnPlayer")
+                    .replace("%player%", player.name)
+                    .miniToComponent(),
+            )
         }
     }
 }
