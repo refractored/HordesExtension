@@ -28,7 +28,11 @@ class OnBloodmoonStart : Listener {
         BloodmoonPlugin.instance.scheduler.runLater(
             (hordeConfig.minTickTime..hordeConfig.maxTickTime).random(),
         ) {
-            hordeConfig.spawnHorde(event.World.getEligiblePlayers().random())
+            val player = event.World.getEligiblePlayers().randomOrNull()
+
+            if (player != null) {
+                HordeRegistry.getHordeConfig(event.World)!!.spawnHorde(player, true)
+            }
 
             val bloodmoonWorld = BloodmoonRegistry.getWorld(event.World.name) ?: return@runLater
 
