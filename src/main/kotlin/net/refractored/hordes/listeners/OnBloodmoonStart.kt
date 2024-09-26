@@ -2,7 +2,9 @@ package net.refractored.hordes.listeners
 
 import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.bloodmoonreloaded.events.BloodmoonStartEvent
-import net.refractored.bloodmoonreloaded.worlds.BloodmoonRegistry
+import net.refractored.bloodmoonreloaded.registry.BloodmoonRegistry
+import net.refractored.bloodmoonreloaded.types.BloodmoonWorld
+import net.refractored.hordes.hordes.HordeConfig
 import net.refractored.hordes.hordes.HordeRegistry
 import org.bukkit.GameMode
 import org.bukkit.World
@@ -13,49 +15,44 @@ import org.bukkit.event.Listener
 class OnBloodmoonStart : Listener {
     @EventHandler
     fun onBloodmoonStart(event: BloodmoonStartEvent) {
-        val hordeConfig = HordeRegistry.getHordeConfig(event.World)!!
-        HordeRegistry.getHordeConfig(event.World)!!.maxMobs
+        val hordeConfig = HordeRegistry.getHordeConfig(event.World) ?: return
+        scheduleBloodmoonTask(event, hordeConfig)
+    }
+
+    private fun scheduleBloodmoonTask(
+        event: BloodmoonStartEvent,
+        hordeConfig: HordeConfig,
+    ) {
         BloodmoonPlugin.instance.scheduler.runLater(
             (hordeConfig.minTickTime..hordeConfig.maxTickTime).random(),
         ) {
-            bloodmoonTask(event)
+            bloodmoonTask(event, hordeConfig)
         }
     }
 
-    private fun bloodmoonTask(event: BloodmoonStartEvent) {
-        val hordeConfig = HordeRegistry.getHordeConfig(event.World)!!
-        HordeRegistry.getHordeConfig(event.World)!!.maxMobs
-        BloodmoonPlugin.instance.scheduler.runLater(
-            (hordeConfig.minTickTime..hordeConfig.maxTickTime).random(),
-        ) {
-            val player = event.World.getEligiblePlayers().randomOrNull()
+    private fun bloodmoonTask(
+        event: BloodmoonStartEvent,
+        hordeConfig: HordeConfig,
+    ) {
+        val bloodmoonWorld = BloodmoonRegistry.getWorld(event.World.name) ?: return
 
-            if (player != null) {
-                HordeRegistry.getHordeConfig(event.World)!!.spawnHorde(player, true)
-            }
-
-            val bloodmoonWorld = BloodmoonRegistry.getWorld(event.World.name) ?: return@runLater
-
-            bloodmoonWorld.active ?: return@runLater
-
-            bloodmoonTask(event)
+        if (bloodmoonWorld.status != BloodmoonWorld.BloodmoonStatus.ACTIVE) {
+            return
         }
+
+        val player = event.World.getEligiblePlayers().randomOrNull()
+
+        if (player != null) {
+            hordeConfig.spawnHorde(player, true)
+        }
+
+        scheduleBloodmoonTask(event, hordeConfig)
     }
 
-    /**
-     * Gets eligible players.
-     *
-     * @return the eligible players
-     */
-    private fun World.getEligiblePlayers(): List<Player> {
-        val eligiblePlayers: MutableList<Player> = ArrayList()
-        for (player in this.players) {
-            if (!player.isVanished() && player.gameMode == GameMode.SURVIVAL) {
-                eligiblePlayers.add(player)
-            }
+    private fun World.getEligiblePlayers(): List<Player> =
+        this.players.filter {
+            it.gameMode == GameMode.SURVIVAL && !it.isVanished()
         }
-        return eligiblePlayers
-    }
 
     private fun Player.isVanished(): Boolean {
         for (meta in this.getMetadata("vanished")) {

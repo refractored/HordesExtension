@@ -60,7 +60,7 @@ class HordesExtension(
         }
 
         if (plugin.langYml.getStringOrNull("messages.SpawnedHordeOnPlayer") == null) {
-            plugin.langYml.set("messages.SpawnedHordeOnPlayer", "<white>Spawned horde on %player%.")
+            plugin.langYml.set("messages.SpawnedHordeOnPlayer", "<red>Spawned horde on %player%.")
             plugin.langYml.save()
             plugin.reload()
         }

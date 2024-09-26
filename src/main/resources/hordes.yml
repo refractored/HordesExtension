@@ -15,8 +15,8 @@ DefaultPreset:
   HordeSpawnDistance: 12
   # The minimum and maximum ticks between each horde spawn
   # Hordes randomly spawn whenever a bloodmoon actively.
-  HordeSpawnRateTicksMin: 200
-  HordeSpawnRateTicksMax: 800
+  HordeSpawnRateTicksMin: 800
+  HordeSpawnRateTicksMax: 1000
   # Whether to enable the strike lightning effect when a horde spawns
   StrikeLightning: true
   AnnounceHordes: true
