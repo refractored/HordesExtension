@@ -6,12 +6,14 @@ import net.refractored.bloodmoonreloaded.util.MessageUtil.getStringPrefixed
 import net.refractored.bloodmoonreloaded.util.MessageUtil.miniToComponent
 import net.refractored.bloodmoonreloaded.util.MessageUtil.replace
 import net.refractored.hordes.hordes.HordeRegistry
+import net.refractored.hordes.util.EligibleUtil.getEligiblePlayers
 import org.bukkit.entity.Player
 import revxrsal.commands.annotation.Command
 import revxrsal.commands.annotation.Description
 import revxrsal.commands.annotation.Optional
 import revxrsal.commands.bukkit.BukkitCommandActor
 import revxrsal.commands.bukkit.annotation.CommandPermission
+import revxrsal.commands.bukkit.player
 
 class SpawnHordeCommand {
     @CommandPermission("bloodmoon.admin.horde.spawn")
@@ -19,7 +21,7 @@ class SpawnHordeCommand {
     @Command("bloodmoon spawn horde")
     fun execute(
         actor: BukkitCommandActor,
-        player: Player,
+        @Optional player: Player = actor.player.world.getEligiblePlayers().random(),
         @Optional announce: Boolean = true,
     ) {
         HordeRegistry.getHordeConfig(player.world)?.spawnHorde(player, announce) ?: throw CommandErrorException(
@@ -27,6 +29,7 @@ class SpawnHordeCommand {
                 .getStringPrefixed("messages.NoHordeConfigFound")
                 .miniToComponent(),
         )
+        actor.player.world.getEligiblePlayers()
         actor.reply(
             BloodmoonPlugin.instance.langYml
                 .getStringPrefixed("messages.SpawnedHordeOnPlayer")

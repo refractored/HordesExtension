@@ -32,7 +32,7 @@ class HordesExtension(
 
             this.javaClass.getResourceAsStream("/hordes.yml")?.use { inputStream ->
                 Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING)
-            } ?: throw IllegalArgumentException("Resource not found.") // This should never happen. if it does, i kms.
+            }!!
         }
 
         hordeConfig = YamlConfiguration.loadConfiguration(dataFolder.resolve("hordes.yml"))
@@ -69,15 +69,16 @@ class HordesExtension(
 
         BloodmoonPlugin.instance.eventManager.registerListener(OnBloodmoonStart())
 
-        HordeRegistry.refreshHordeConfigs()
     }
 
     override fun onDisable() {
     }
 
     override fun onReload() {
-        // No need to re-register listeners in OnBloodmoonStart, as all bloodmoons & tasks are stopped on reload.
+        // No need to re-run tasks in OnBloodmoonStart, as all bloodmoons & tasks are stopped on reload.
+        HordeRegistry.refreshHordeConfigs()
     }
+
 
     companion object {
         /**

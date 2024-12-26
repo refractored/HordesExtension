@@ -11,12 +11,13 @@ import org.bukkit.NamespacedKey
 import org.bukkit.World
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
+import org.bukkit.persistence.PersistentDataType
 
 data class HordeConfig(
     val configSection: ConfigurationSection,
 ) {
 
-    val NamespacedKey = NamespacedKey(BloodmoonPlugin.instance, "horde-${configSection.name}");
+    val key = NamespacedKey(BloodmoonPlugin.instance, "horde-${configSection.name}");
 
     val worlds: List<World> = configSection.getStringList("Worlds").mapNotNull { Bukkit.getWorld(it) }
 
@@ -80,9 +81,9 @@ data class HordeConfig(
                         .location.y + 1
                 ).coerceAtMost(maxY)
 
+            val entity = mob.spawn(mobLocation)
 
-
-            mob.spawn(mobLocation)
+            entity.persistentDataContainer.set(key, PersistentDataType.BYTE, 1)
 
             if (strikeLightning) {
                 player.world.strikeLightningEffect(mobLocation)

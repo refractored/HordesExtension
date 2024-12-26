@@ -6,9 +6,7 @@ import net.refractored.bloodmoonreloaded.registry.BloodmoonRegistry
 import net.refractored.bloodmoonreloaded.types.BloodmoonWorld
 import net.refractored.hordes.hordes.HordeConfig
 import net.refractored.hordes.hordes.HordeRegistry
-import org.bukkit.GameMode
-import org.bukkit.World
-import org.bukkit.entity.Player
+import net.refractored.hordes.util.EligibleUtil.getEligiblePlayers
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
@@ -47,17 +45,5 @@ class OnBloodmoonStart : Listener {
         }
 
         scheduleBloodmoonTask(event, hordeConfig)
-    }
-
-    private fun World.getEligiblePlayers(): List<Player> =
-        this.players.filter {
-            it.gameMode == GameMode.SURVIVAL && !it.isVanished()
-        }
-
-    private fun Player.isVanished(): Boolean {
-        for (meta in this.getMetadata("vanished")) {
-            if (meta.asBoolean()) return true
-        }
-        return false
     }
 }

@@ -40,7 +40,7 @@ object HordeRegistry {
     /**
      * Removes a preset from the config & map
      * @return The itemstack that was created
-     * @param name The name of the preset
+     * @param config The config of the preset
      */
     @JvmStatic
     fun removePreset(config: HordeConfig) {
