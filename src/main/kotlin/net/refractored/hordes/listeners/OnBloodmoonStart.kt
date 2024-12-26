@@ -36,7 +36,7 @@ class OnBloodmoonStart : Listener {
     ) {
         val bloodmoonWorld = BloodmoonRegistry.getWorld(event.World.name) ?: return
 
-        if (bloodmoonWorld.status != BloodmoonWorld.BloodmoonStatus.ACTIVE) {
+        if (bloodmoonWorld.status != BloodmoonWorld.Status.ACTIVE) {
             return
         }
 

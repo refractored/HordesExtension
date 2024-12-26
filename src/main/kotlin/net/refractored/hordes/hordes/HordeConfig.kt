@@ -7,6 +7,7 @@ import net.refractored.bloodmoonreloaded.util.MessageUtil.getStringPrefixed
 import net.refractored.bloodmoonreloaded.util.MessageUtil.miniToComponent
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.NamespacedKey
 import org.bukkit.World
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
@@ -14,6 +15,9 @@ import org.bukkit.entity.Player
 data class HordeConfig(
     val configSection: ConfigurationSection,
 ) {
+
+    val NamespacedKey = NamespacedKey(BloodmoonPlugin.instance, "horde-${configSection.name}");
+
     val worlds: List<World> = configSection.getStringList("Worlds").mapNotNull { Bukkit.getWorld(it) }
 
     val mobs: List<TestableEntity>
@@ -75,6 +79,8 @@ data class HordeConfig(
                         .getHighestBlockAt(mobLocation)
                         .location.y + 1
                 ).coerceAtMost(maxY)
+
+
 
             mob.spawn(mobLocation)
 
