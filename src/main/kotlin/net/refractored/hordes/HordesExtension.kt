@@ -39,11 +39,11 @@ class HordesExtension(
 
         val messages =
             mapOf(
-                "HordeSpawnedOnPlayer" to "<red><bold>A horde has descended upon %player%!",
-                "NoEligiblePlayers" to "<red>No eligible players found!",
-                "HordeSpawnedOnPlayerPrefixed" to false,
-                "NoHordeConfigFound" to "<red>This world has no valid horde configuration!",
-                "SpawnedHordeOnPlayer" to "<red>Spawned horde on %player%.",
+                "messages.HordeSpawnedOnPlayer" to "<red><bold>A horde has descended upon %player%!",
+                "messages.NoEligiblePlayers" to "<red>No eligible players found!",
+                "messages.HordeSpawnedOnPlayerPrefixed" to false,
+                "messages.NoHordeConfigFound" to "<red>This world has no valid horde configuration!",
+                "messages.SpawnedHordeOnPlayer" to "<red>Spawned horde on %player%.",
             )
 
         messages.forEach { (key, value) ->
