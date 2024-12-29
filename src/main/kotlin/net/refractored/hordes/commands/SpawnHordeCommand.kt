@@ -21,9 +21,19 @@ class SpawnHordeCommand {
     @Command("bloodmoon spawn horde")
     fun execute(
         actor: BukkitCommandActor,
-        @Optional player: Player = actor.player.world.getEligiblePlayers().random(),
+        @Optional player: Player? =
+            actor.player.world
+                .getEligiblePlayers()
+                .randomOrNull(),
         @Optional announce: Boolean = true,
     ) {
+        if (player == null) {
+            throw CommandErrorException(
+                BloodmoonPlugin.instance.langYml
+                    .getStringPrefixed("messages.NoEligiblePlayers")
+                    .miniToComponent(),
+            )
+        }
         HordeRegistry.getHordeConfig(player.world)?.spawnHorde(player, announce) ?: throw CommandErrorException(
             BloodmoonPlugin.instance.langYml
                 .getStringPrefixed("messages.NoHordeConfigFound")

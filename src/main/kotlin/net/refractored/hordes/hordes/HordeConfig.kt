@@ -16,8 +16,7 @@ import org.bukkit.persistence.PersistentDataType
 data class HordeConfig(
     val configSection: ConfigurationSection,
 ) {
-
-    val key = NamespacedKey(BloodmoonPlugin.instance, "horde-${configSection.name}");
+    val pdcKey = NamespacedKey(BloodmoonPlugin.instance, "horde-${configSection.name}")
 
     val worlds: List<World> = configSection.getStringList("Worlds").mapNotNull { Bukkit.getWorld(it) }
 
@@ -54,6 +53,10 @@ data class HordeConfig(
         }
 
         mobs = configSection.getStringList("Mobs").map { Entities.lookup(it) }
+
+        if (mobs.isEmpty()) {
+            throw IllegalArgumentException("No valid mobs found in ${configSection.name}")
+        }
     }
 
     /**
@@ -81,9 +84,8 @@ data class HordeConfig(
                         .location.y + 1
                 ).coerceAtMost(maxY)
 
-            val entity = mob.spawn(mobLocation)
 
-            entity.persistentDataContainer.set(key, PersistentDataType.BYTE, 1)
+//            spawnedEntity.setMetadata()
 
             if (strikeLightning) {
                 player.world.strikeLightningEffect(mobLocation)

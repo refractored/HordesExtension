@@ -35,50 +35,37 @@ class HordesExtension(
             }!!
         }
 
-        hordeConfig = YamlConfiguration.loadConfiguration(dataFolder.resolve("hordes.yml"))
+        BloodmoonPlugin.instance.eventManager.registerListener(OnBloodmoonStart())
 
-        HordeRegistry.refreshHordeConfigs()
+        val messages =
+            mapOf(
+                "HordeSpawnedOnPlayer" to "<red><bold>A horde has descended upon %player%!",
+                "NoEligiblePlayers" to "<red>No eligible players found!",
+                "HordeSpawnedOnPlayerPrefixed" to false,
+                "NoHordeConfigFound" to "<red>This world has no valid horde configuration!",
+                "SpawnedHordeOnPlayer" to "<red>Spawned horde on %player%.",
+            )
 
-        plugin.eventManager.registerListener(OnBloodmoonStart())
-
-        if (plugin.langYml.getStringOrNull("messages.HordeSpawnedOnPlayer") == null) {
-            plugin.langYml.set("messages.HordeSpawnedOnPlayer", "<red><bold>A horde has descended upon %player%!")
-            plugin.langYml.save()
-            plugin.reload()
-        }
-
-        if (plugin.langYml.getBoolOrNull("messages.HordeSpawnedOnPlayerPrefixed") == null) {
-            plugin.langYml.set("messages.HordeSpawnedOnPlayerPrefixed", false)
-            plugin.langYml.save()
-            plugin.reload()
-        }
-
-        if (plugin.langYml.getStringOrNull("messages.NoHordeConfigFoundNoHordeConfigFound") == null) {
-            plugin.langYml.set("messages.NoHordeConfigFound", "<red>This world has no valid horde configuration!")
-            plugin.langYml.save()
-            plugin.reload()
-        }
-
-        if (plugin.langYml.getStringOrNull("messages.SpawnedHordeOnPlayer") == null) {
-            plugin.langYml.set("messages.SpawnedHordeOnPlayer", "<red>Spawned horde on %player%.")
-            plugin.langYml.save()
-            plugin.reload()
+        messages.forEach { (key, value) ->
+            if (plugin.langYml.get(key) == null) {
+                plugin.langYml.set(key, value)
+                plugin.langYml.save()
+                plugin.reload()
+            }
         }
 
         BloodmoonPlugin.instance.handler.register(SpawnHordeCommand())
-
-        BloodmoonPlugin.instance.eventManager.registerListener(OnBloodmoonStart())
-
     }
 
     override fun onDisable() {
     }
 
     override fun onReload() {
-        // No need to re-run tasks in OnBloodmoonStart, as all bloodmoons & tasks are stopped on reload.
+        // No need to re-register listeners in OnBloodmoonStart, as all bloodmoons & tasks are stopped on reload.
+        hordeConfig = YamlConfiguration.loadConfiguration(dataFolder.resolve("hordes.yml"))
+
         HordeRegistry.refreshHordeConfigs()
     }
-
 
     companion object {
         /**

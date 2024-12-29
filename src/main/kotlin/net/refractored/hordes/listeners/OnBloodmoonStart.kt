@@ -2,7 +2,6 @@ package net.refractored.hordes.listeners
 
 import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.bloodmoonreloaded.events.BloodmoonStartEvent
-import net.refractored.bloodmoonreloaded.registry.BloodmoonRegistry
 import net.refractored.bloodmoonreloaded.types.BloodmoonWorld
 import net.refractored.hordes.hordes.HordeConfig
 import net.refractored.hordes.hordes.HordeRegistry
@@ -32,9 +31,7 @@ class OnBloodmoonStart : Listener {
         event: BloodmoonStartEvent,
         hordeConfig: HordeConfig,
     ) {
-        val bloodmoonWorld = BloodmoonRegistry.getWorld(event.World.name) ?: return
-
-        if (bloodmoonWorld.status != BloodmoonWorld.Status.ACTIVE) {
+        if (event.BloodmoonWorld.status != BloodmoonWorld.Status.ACTIVE) {
             return
         }
 
