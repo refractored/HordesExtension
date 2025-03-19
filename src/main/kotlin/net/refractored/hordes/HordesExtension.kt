@@ -6,9 +6,6 @@ import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.hordes.commands.SpawnHordeCommand
 import net.refractored.hordes.hordes.HordeRegistry
 import net.refractored.hordes.listeners.OnBloodmoonStart
-import revxrsal.commands.Lamp
-import revxrsal.commands.bukkit.BukkitLamp
-import revxrsal.commands.bukkit.actor.BukkitCommandActor
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.nio.file.Files
@@ -29,7 +26,6 @@ class HordesExtension(
     override fun onEnable() {
     }
 
-
     override fun onAfterLoad() {
         if (!File(dataFolder, "hordes.yml").exists()) {
             val destination = Path.of(dataFolder.absolutePath + "/hordes.yml")
@@ -41,32 +37,23 @@ class HordesExtension(
 
         hordeConfig = YamlConfiguration.loadConfiguration(dataFolder.resolve("hordes.yml"))
 
-        HordeRegistry.refreshHordeConfigs()
+        BloodmoonPlugin.instance.eventManager.registerListener(OnBloodmoonStart())
 
-        plugin.eventManager.registerListener(OnBloodmoonStart())
+        val messages =
+            mapOf(
+                "messages.HordeSpawnedOnPlayer" to "<red><bold>A horde has descended upon %player%!",
+                "messages.NoEligiblePlayers" to "<red>No eligible players found!",
+                "messages.HordeSpawnedOnPlayerPrefixed" to false,
+                "messages.NoHordeConfigFound" to "<red>This world has no valid horde configuration!",
+                "messages.SpawnedHordeOnPlayer" to "<red>Spawned horde on %player%.",
+            )
 
-        if (plugin.langYml.getStringOrNull("messages.HordeSpawnedOnPlayer") == null) {
-            plugin.langYml.set("messages.HordeSpawnedOnPlayer", "<red><bold>A horde has descended upon %player%!")
-            plugin.langYml.save()
-            plugin.reload()
-        }
-
-        if (plugin.langYml.getBoolOrNull("messages.HordeSpawnedOnPlayerPrefixed") == null) {
-            plugin.langYml.set("messages.HordeSpawnedOnPlayerPrefixed", false)
-            plugin.langYml.save()
-            plugin.reload()
-        }
-
-        if (plugin.langYml.getStringOrNull("messages.NoHordeConfigFoundNoHordeConfigFound") == null) {
-            plugin.langYml.set("messages.NoHordeConfigFound", "<red>This world has no valid horde configuration!")
-            plugin.langYml.save()
-            plugin.reload()
-        }
-
-        if (plugin.langYml.getStringOrNull("messages.SpawnedHordeOnPlayer") == null) {
-            plugin.langYml.set("messages.SpawnedHordeOnPlayer", "<red>Spawned horde on %player%.")
-            plugin.langYml.save()
-            plugin.reload()
+        messages.forEach { (key, value) ->
+            if (plugin.langYml.get(key) == null) {
+                plugin.langYml.set(key, value)
+                plugin.langYml.save()
+                plugin.reload(false)
+            }
         }
 
         BloodmoonPlugin.instance.lamp.register(SpawnHordeCommand())
@@ -79,10 +66,11 @@ class HordesExtension(
     }
 
     override fun onReload() {
-        // No need to re-run tasks in OnBloodmoonStart, as all bloodmoons & tasks are stopped on reload.
+        // No need to re-register listeners in OnBloodmoonStart, as all bloodmoons & tasks are stopped on reload.
+        hordeConfig = YamlConfiguration.loadConfiguration(dataFolder.resolve("hordes.yml"))
+
         HordeRegistry.refreshHordeConfigs()
     }
-
 
     companion object {
         /**
