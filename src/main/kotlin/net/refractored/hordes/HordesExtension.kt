@@ -6,6 +6,9 @@ import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.hordes.commands.SpawnHordeCommand
 import net.refractored.hordes.hordes.HordeRegistry
 import net.refractored.hordes.listeners.OnBloodmoonStart
+import revxrsal.commands.Lamp
+import revxrsal.commands.bukkit.BukkitLamp
+import revxrsal.commands.bukkit.actor.BukkitCommandActor
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.nio.file.Files
@@ -25,6 +28,7 @@ class HordesExtension(
 
     override fun onEnable() {
     }
+
 
     override fun onAfterLoad() {
         if (!File(dataFolder, "hordes.yml").exists()) {
@@ -65,7 +69,7 @@ class HordesExtension(
             plugin.reload()
         }
 
-        BloodmoonPlugin.instance.handler.register(SpawnHordeCommand())
+        BloodmoonPlugin.instance.lamp.register(SpawnHordeCommand())
 
         BloodmoonPlugin.instance.eventManager.registerListener(OnBloodmoonStart())
 

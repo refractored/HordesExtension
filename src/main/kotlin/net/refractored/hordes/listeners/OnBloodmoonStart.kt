@@ -3,7 +3,7 @@ package net.refractored.hordes.listeners
 import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.bloodmoonreloaded.events.BloodmoonStartEvent
 import net.refractored.bloodmoonreloaded.registry.BloodmoonRegistry
-import net.refractored.bloodmoonreloaded.types.BloodmoonWorld
+import net.refractored.bloodmoonreloaded.types.implementation.BloodmoonWorld
 import net.refractored.hordes.hordes.HordeConfig
 import net.refractored.hordes.hordes.HordeRegistry
 import net.refractored.hordes.util.EligibleUtil.getEligiblePlayers
@@ -13,7 +13,7 @@ import org.bukkit.event.Listener
 class OnBloodmoonStart : Listener {
     @EventHandler
     fun onBloodmoonStart(event: BloodmoonStartEvent) {
-        val hordeConfig = HordeRegistry.getHordeConfig(event.World) ?: return
+        val hordeConfig = HordeRegistry.getHordeConfig(event.world) ?: return
         scheduleBloodmoonTask(event, hordeConfig)
     }
 
@@ -32,13 +32,13 @@ class OnBloodmoonStart : Listener {
         event: BloodmoonStartEvent,
         hordeConfig: HordeConfig,
     ) {
-        val bloodmoonWorld = BloodmoonRegistry.getWorld(event.World.name) ?: return
+        val bloodmoonWorld = BloodmoonRegistry.getWorld(event.world.name) ?: return
 
         if (bloodmoonWorld.status != BloodmoonWorld.Status.ACTIVE) {
             return
         }
 
-        val player = event.World.getEligiblePlayers().randomOrNull()
+        val player = event.world.getEligiblePlayers().randomOrNull()
 
         if (player != null) {
             hordeConfig.spawnHorde(player, true)

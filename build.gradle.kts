@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.20"
     id("java")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.5"
 }
 
 group = "net.refractored"
@@ -20,12 +20,13 @@ repositories {
 dependencies {
     compileOnly(fileTree("libs"))
     compileOnly("com.github.refractored:BloodmoonReloaded:main-SNAPSHOT")
-    compileOnly("com.github.Revxrsal.Lamp:common:3.2.1")
-    compileOnly("com.github.Revxrsal.Lamp:bukkit:3.2.1")
-    compileOnly("com.willfp:eco:6.74.1")
-    compileOnly("com.github.Auxilor:libreforge:4.71.5")
+    compileOnly("io.github.revxrsal:lamp.common:4.0.0-rc.9")
+    compileOnly("io.github.revxrsal:lamp.bukkit:4.0.0-rc.9")
+    compileOnly("io.github.revxrsal:lamp.brigadier:4.0.0-rc.9")
+    compileOnly("com.willfp:eco:6.75.2")
+//    compileOnly("com.willfp:libreforge:4.74.0")
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
-    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:2.0.0")
+    compileOnly(kotlin("stdlib", version = "2.1.0"))
 }
 
 val targetJavaVersion = 21
@@ -33,7 +34,12 @@ kotlin {
     jvmToolchain(targetJavaVersion)
 }
 
+tasks.shadowJar{
+    relocate("revxrsal.commands", "net.refractored.libs.lamp")
+}
+
 tasks.build {
+
     dependsOn("shadowJar")
 }
 
