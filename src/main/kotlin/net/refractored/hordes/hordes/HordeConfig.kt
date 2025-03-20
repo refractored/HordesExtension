@@ -23,28 +23,28 @@ data class HordeConfig(
     val mobs: List<TestableEntity>
 
     val strikeLightning
-        get() = configSection.getBoolean("StrikeLightning")
+        get() = configSection.getBoolean("strike-lightning")
 
     val maxMobs
-        get() = configSection.getInt("HordeMaxSize")
+        get() = configSection.getInt("max-size")
 
     val minMobs
-        get() = configSection.getInt("HordeMinSize")
+        get() = configSection.getInt("min-size")
 
     val minTickTime
-        get() = configSection.getLong("HordeSpawnRateTicksMin")
+        get() = configSection.getLong("spawn-rate-ticks-min")
 
     val maxTickTime
-        get() = configSection.getLong("HordeSpawnRateTicksMax")
+        get() = configSection.getLong("spawn-rate-ticks-max")
 
     val maxY
-        get() = configSection.getDouble("MaxY")
+        get() = configSection.getDouble("max-y")
 
     val spawnDistance
-        get() = configSection.getInt("HordeSpawnDistance")
+        get() = configSection.getInt("spawn-distance")
 
     val hordeBroadcastPrefixed
-        get() = configSection.getBoolean("HordeSpawnedOnPlayerPrefixed")
+        get() = configSection.getBoolean("broadcast.prefixed")
 
     init {
 
@@ -98,10 +98,10 @@ data class HordeConfig(
         if (hordeBroadcastPrefixed) {
             player.world.players.forEach {
                 it.sendMessage(
-                    BloodmoonPlugin.instance.langYml
-                        .getStringPrefixed("messages.HordeSpawnedOnPlayer")
+                    (BloodmoonPlugin.instance.langYml.getString("messages.prefix") +
+                    (configSection.getString("broadcast.message") ?: ""))
                         .replace("%player%", player.name)
-                        .miniToComponent(),
+                        .miniToComponent()
                 )
             }
             return
@@ -109,10 +109,9 @@ data class HordeConfig(
 
         player.world.players.forEach {
             it.sendMessage(
-                BloodmoonPlugin.instance.langYml
-                    .getString("messages.HordeSpawnedOnPlayer")
-                    .replace("%player%", player.name)
-                    .miniToComponent(),
+                (configSection.getString("broadcast.message") ?: "")
+            .replace("%player%", player.name)
+            .miniToComponent()
             )
         }
     }

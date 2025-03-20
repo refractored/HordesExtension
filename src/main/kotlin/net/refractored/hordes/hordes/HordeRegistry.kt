@@ -1,5 +1,6 @@
 package net.refractored.hordes.hordes
 
+import net.refractored.bloodmoonreloaded.BloodmoonPlugin
 import net.refractored.hordes.HordesExtension
 import org.bukkit.World
 
@@ -8,24 +9,23 @@ object HordeRegistry {
     private val registeredConfigs = mutableListOf<HordeConfig>()
 
     /**
-     * Gets a preset from the loaded presets
-     * @param name The name of the preset
-     * @return The itemstack for the preset, or null if it does not exist
+     * Gets a preset from the loaded presets.
+     * @param world The world to get the preset for.
+     * @return The HordeConfig for the preset, or null if it does not exist
      */
     @JvmStatic
     fun getHordeConfig(world: World): HordeConfig? = registeredConfigs.find { it.worlds.contains(world) }
 
     /**
-     * Gets a read-only map of all the presets loaded.
+     * Gets a read-only map of all the loaded configs.
      * @return The mutable preset list
      */
     @JvmStatic
     fun getHordeConfigs() = registeredConfigs.toList()
 
     /**
-     * Create a new preset and adds it to the config & map
-     * @param name The name of the preset
-     * @param item The itemstack for the preset
+     * Create a new preset and adds it to the loaded configs
+     * @param config The HordeConfig to save a config for
      */
     @JvmStatic
     fun createPreset(config: HordeConfig) {
@@ -38,8 +38,7 @@ object HordeRegistry {
     }
 
     /**
-     * Removes a preset from the config & map
-     * @return The itemstack that was created
+     * Removes a config from the loaded configs
      * @param config The config of the preset
      */
     @JvmStatic
@@ -48,7 +47,7 @@ object HordeRegistry {
     }
 
     /**
-     * Deletes all presets in the map and populates it with the presets in the config.
+     * Deletes all loaded configs and populates it with the configuration in the hordes.yml.
      */
     @JvmStatic
     fun refreshHordeConfigs() {
@@ -58,9 +57,16 @@ object HordeRegistry {
         val keys = section!!.getKeys(false)
         if (keys.isEmpty()) return
         for (key in keys) {
-            config.getConfigurationSection(key)?.let { sectionKey ->
-                createPreset(HordeConfig(sectionKey))
-            } ?: continue
+            try {
+                config.getConfigurationSection(key)?.let { sectionKey ->
+                    createPreset(HordeConfig(sectionKey))
+                } ?: continue
+            } catch (e: Exception) {
+                BloodmoonPlugin.instance.logger.severe("Failed to load horde config \"$key\":")
+                BloodmoonPlugin.instance.logger.severe("${e.message}")
+                if (BloodmoonPlugin.instance.configYml.getBool("debug")) e.printStackTrace()
+                continue
+            }
         }
     }
 }
