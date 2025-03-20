@@ -84,8 +84,9 @@ data class HordeConfig(
                         .location.y + 1
                 ).coerceAtMost(maxY)
 
+            val entity = mob.spawn(mobLocation)
 
-//            spawnedEntity.setMetadata()
+            entity.persistentDataContainer.set(pdcKey, PersistentDataType.BYTE, 1)
 
             if (strikeLightning) {
                 player.world.strikeLightningEffect(mobLocation)
