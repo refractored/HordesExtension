@@ -22,7 +22,7 @@ class SpawnHordeCommand {
         actor: BukkitCommandActor,
         @Optional player: Player = actor.asPlayer()?.world?.getEligiblePlayers()?.randomOrNull() ?: throw CommandErrorException(
             BloodmoonPlugin.instance.langYml
-                .getStringPrefixed("messages.NoEligiblePlayers")
+                .getStringPrefixed("messages.spawn.horde.no-players")
                 .miniToComponent(),
         )
         ,
@@ -30,12 +30,12 @@ class SpawnHordeCommand {
     ) {
         HordeRegistry.getHordeConfig(player.world)?.spawnHorde(player, announce) ?: throw CommandErrorException(
             BloodmoonPlugin.instance.langYml
-                .getStringPrefixed("messages.NoHordeConfigFound")
+                .getStringPrefixed("messages.general.invalid-horde")
                 .miniToComponent(),
         )
         actor.reply(
             BloodmoonPlugin.instance.langYml
-                .getStringPrefixed("messages.SpawnedHordeOnPlayer")
+                .getStringPrefixed("messages.spawn.horde.success")
                 .replace("%player%", player.displayName())
                 .miniToComponent(),
         )

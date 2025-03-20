@@ -39,27 +39,7 @@ class HordesExtension(
 
         BloodmoonPlugin.instance.eventManager.registerListener(OnBloodmoonStart())
 
-        val messages =
-            mapOf(
-                "messages.HordeSpawnedOnPlayer" to "<red><bold>A horde has descended upon %player%!",
-                "messages.NoEligiblePlayers" to "<red>No eligible players found!",
-                "messages.HordeSpawnedOnPlayerPrefixed" to false,
-                "messages.NoHordeConfigFound" to "<red>This world has no valid horde configuration!",
-                "messages.SpawnedHordeOnPlayer" to "<red>Spawned horde on %player%.",
-            )
-
-        messages.forEach { (key, value) ->
-            if (plugin.langYml.get(key) == null) {
-                plugin.langYml.set(key, value)
-                plugin.langYml.save()
-                plugin.reload(false)
-            }
-        }
-
         BloodmoonPlugin.instance.lamp.register(SpawnHordeCommand())
-
-        BloodmoonPlugin.instance.eventManager.registerListener(OnBloodmoonStart())
-
     }
 
     override fun onDisable() {
